@@ -20,7 +20,7 @@ function isTelemetryEnabled() {
   // If the app environment is not defined (likely because of local development),
   // then don't collect any data.
   if (typeof(process.env.REACT_APP_ENV) === "undefined") {
-    return false;
+    return true;
   }
 
   return navigator.doNotTrack !== '1';
@@ -35,7 +35,9 @@ export function initTelemetryClient(useSendBeacon=false) {
     maxEvents: 1,
     channel: process.env.REACT_APP_ENV,
     httpClient: useSendBeacon ? BrowserSendBeaconUploader : undefined,
+    enableAutoClickEvents: true,
   });
+  Glean.setDebugViewTag("abhi-auto");
 }
 
 /**
