@@ -16,6 +16,7 @@ import { formatDate } from '../lib/date';
 import { usePrevious } from '../lib/usePrevious';
 import { searchArrayElementPropertiesForSubstring } from '../lib/searchArrayElementPropertiesForSubstring';
 import { recordLoad, recordClick } from '../lib/telemetry';
+import GleanMetrics from '@mozilla/glean/metrics';
 
 const q = query(collection(getFirestore(), 'clients'), orderBy('lastActive', 'desc'));
 
@@ -141,15 +142,19 @@ const ActiveClients = () => {
                   <td>
                     <Link
                       className='text-decoration-none'
+                      data-glean-id={`/pings/${debugId}`}
+                      data-glean-type='Link'
+                      data-glean-label='Debug ID Pings'
                       to={`/pings/${debugId}`}
                       onClick={() => {
+                        GleanMetrics.recordElementClick({id: 'Explicit call'});
                         recordClick("Debug ID Pings");
                       }}
                     >
                       Pings
                     </Link>
                     <br />
-                    <Link className='text-decoration-none' to={`/stream/${debugId}`} onClick={() => {
+                    <Link className='text-decoration-none' data-glean-id={`/stream/${debugId}`} data-glean-label='Debug ID Event Stream' to={`/stream/${debugId}`} onClick={() => {
                       recordClick("Debug ID Event Stream")
                     }}>
                       Event Stream
