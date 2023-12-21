@@ -35,7 +35,7 @@ export function initTelemetryClient(useSendBeacon=false) {
     maxEvents: 1,
     channel: process.env.REACT_APP_ENV,
     httpClient: useSendBeacon ? BrowserSendBeaconUploader : undefined,
-    enableAutoClickEvents: true,
+    enableAutoElementClickEvents: true,
   });
   Glean.setDebugViewTag("abhi-auto");
 }
